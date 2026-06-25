@@ -2,9 +2,7 @@
 
 A simulator + compiler for **NeuroRT** — a Process-Near-Memory (PNM) neuromorphic
 processor that deploys Spiking Neural Networks (SNNs) on a single-chip 24×24 NoC mesh
-(576 PEs, 333 MHz, 28nm). The two hardware contributions modeled here are **Synapse
-Compression** (Algorithm 1, dendrite decompression) and **Dynamic Neuron Pruning (DNP)**
-(Algorithm 2, virtual-memory neuron store with age/potential pruning).
+(576 PEs, 333 MHz, 28nm).
 
 This repo contains:
 - `sim/` — multi-threaded C++20 cycle-stepped NoC + PE simulator (the `BspEngine`),
@@ -13,12 +11,9 @@ This repo contains:
   sim-loadable network image (`manifest.json` + binary weight/axon blobs), plus the
   experiment harnesses.
 
-See `CLAUDE.md` for the detailed architecture and current validation state. See
-`paper.pdf` for the spec.
-
 ---
 
-## 1. Build the C++ simulator
+## Build the C++ simulator
 
 Requirements: CMake ≥ 3.20, g++ ≥ 11 (C++20), OpenMP. The first configure pulls
 GoogleTest + nlohmann/json via FetchContent (**network required once**).
@@ -33,7 +28,7 @@ copy of the json single-header with `-DNEURORT_JSON_DIR=<dir containing nlohmann
 
 Treat compiler warnings as errors (CI mode): `-DNEURORT_WERROR=ON`.
 
-## 2. Run the simulator
+## Run the simulator
 
 Two modes, both from the **repo root** (config paths are repo-root-relative):
 
@@ -81,27 +76,10 @@ window** plus a full per-action breakdown to `energy.json`.
 > The DNP flags **override** the manifest's optional `"dnp"` block; without them the
 > manifest's config (or dense, if absent) is used.
 
-## 3. Run the tests
-
-```bash
-ctest --test-dir build --output-on-failure          # all
-ctest --test-dir build -R Engine --output-on-failure # one (regex)
-./build/sim/test_engine                              # or run a binary directly
-```
-
-**Determinism gate** (headline invariant — output identical for any thread count):
-
-```bash
-for n in 1 2 4 8; do
-  OMP_NUM_THREADS=$n ./build/sim/neurort_sim \
-    --config configs/chip_default.json \
-    --traffic configs/traffic/uniform_random.json --dump s_$n.json
-done   # s_*.json must be byte-identical
-```
 
 ---
 
-## 4. Compile a model (Python frontend)
+## Compile a model (Python frontend)
 
 Env: the `spik-yolo` conda env (PyTorch + SpikingJelly + einops). pytest is **not**
 installed; tests use the dependency-free runner.
@@ -143,12 +121,12 @@ contract is `frontend/neurort_compiler/format.md`; the C++ loader is
 
 ---
 
-## 5. Run experiments
+## Run experiments
 
 The experiment harnesses live in `frontend/` and drive the C++ simulator
 end-to-end. All run from `frontend/` with `$PY` = the `spik-yolo` env python.
 
-### 5.1 End-to-end correctness vs the int8 funcsim reference
+### End-to-end correctness vs the int8 funcsim reference
 
 Compiles a model, computes the layer-1 input current, runs the C++ NoC sim, and compares
 steady-state per-layer firing rates to the int8 functional-sim / SpikingJelly reference.
@@ -161,7 +139,7 @@ $PY run_e2e.py
 (Defaults to `svgg9` at 32×32 with random weights exercising firing; edit the
 `MODEL`/`HW`/`MEASURE` constants at the top of the file to retarget.)
 
-### 5.2 DNP on static CIFAR-10 (svgg9)
+### DNP on static CIFAR-10 (svgg9)
 
 Requires the trained checkpoint `frontend/checkpoints/svgg9_cifar10.pth` and CIFAR-10 at
 `/data/twt/datasets/cifar10`.
@@ -183,7 +161,7 @@ Key flags: `--ckpt`, `--data`, `--n-images` / `--test-images`, `--profile-images
 `--T`. The C++ DNP flags (`--dnp-ratio`, `--dnp-age`, `--dnp-pot`, `--dnp-off`,
 `--dnp-skip-pruned`) are passed through to the simulator by these harnesses.
 
-### 5.3 DNP on DVS (DVS128Gesture, SEW-ResNet18) — the temporal-sparse regime
+### DNP on DVS (DVS128Gesture, SEW-ResNet18) — the temporal-sparse regime
 
 Requires `frontend/checkpoints/sew_resnet18_dvsgesture.pth` and DVS128Gesture at
 `/data/twt/datasets/dvs128gesture`.
@@ -198,14 +176,14 @@ $PY run_dvs_accuracy.py --ckpt checkpoints/sew_resnet18_dvsgesture.pth \
     --data /data/twt/datasets/dvs128gesture --ratios 0.10,0.07,0.05,0.03
 ```
 
-### 5.4 Training / retraining the models
+### Training / retraining the models
 
 ```bash
 $PY train_svgg9_cifar10.py        # svgg9 on CIFAR-10 -> checkpoints/svgg9_cifar10.pth
 $PY train_dvs_sewresnet.py        # SEW-ResNet18 on DVS128Gesture -> checkpoints/sew_resnet18_dvsgesture.pth
 ```
 
-### 5.5 Functional-equivalence validation vs SpikingJelly
+### Functional-equivalence validation vs SpikingJelly
 
 ```bash
 $PY validate_arch.py <model>      # svgg9 | sew_resnet18 | spikformer
@@ -216,7 +194,7 @@ match SpikingJelly bit-exactly (float) — locks the compile→connectivity→LI
 
 ---
 
-## 6. Configuring the chip / experiment parameters
+## Configuring the chip / experiment parameters
 
 - **`configs/chip_default.json`** — chip (`freq_hz`, `tech_nm`, `sram_kb_per_pe`),
   NoC (`width`/`height`, `link_latency`, `num_vc`, `credit_init`), and sim

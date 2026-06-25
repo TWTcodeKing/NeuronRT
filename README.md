@@ -234,5 +234,4 @@ frontend/
 configs/                    # chip/NoC/energy/traffic configs
 ```
 
-The `sim/` core enforces a strict 3-layer decoupling (functional / engine / energy),
-locked by the `decoupling_audit` ctest. See `CLAUDE.md` for the full architecture.
+We are working hard to arrange more my artifacts to reach open-source standard, stay stunned!

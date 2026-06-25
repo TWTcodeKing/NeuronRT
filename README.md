@@ -85,7 +85,7 @@ Env: the `spik-yolo` conda env (PyTorch + SpikingJelly + einops). pytest is **no
 installed; tests use the dependency-free runner.
 
 ```bash
-PY=/home/twt/.conda/envs/spik-yolo/bin/python
+PY= "Your python path"
 cd frontend
 $PY run_tests.py            # all frontend tests (optional substring filter)
 ```

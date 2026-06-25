@@ -234,4 +234,4 @@ frontend/
 configs/                    # chip/NoC/energy/traffic configs
 ```
 
-We are working hard to arrange more my artifacts to reach open-source standard, stay stunned!
+We are working hard to arrange more artifacts to reach open-source standard, stay stunned!

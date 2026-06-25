@@ -124,7 +124,7 @@ contract is `frontend/neurort_compiler/format.md`; the C++ loader is
 ## Run experiments
 
 The experiment harnesses live in `frontend/` and drive the C++ simulator
-end-to-end. All run from `frontend/` with `$PY` = the `spik-yolo` env python.
+end-to-end.
 
 ### End-to-end correctness vs the int8 funcsim reference
 
@@ -207,7 +207,7 @@ match SpikingJelly bit-exactly (float) — locks the compile→connectivity→LI
 - **Per-PE DNP** — set in the manifest's optional `"dnp"` block at compile time, or
   overridden at run time with the `--dnp-*` flags above.
 
-### Workload→DNP cheat sheet (validated, see `CLAUDE.md` for the full reasoning)
+### Workload→DNP cheat sheet
 
 | Workload | Lossless DNP storage | Notes |
 |----------|----------------------|-------|

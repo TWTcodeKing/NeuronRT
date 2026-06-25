@@ -1,0 +1,5 @@
+{
+  "pattern": "hotspot",
+  "center": [12, 12],
+  "spikes_per_pe": 2
+}

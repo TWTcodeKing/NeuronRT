@@ -1,0 +1,21 @@
+{
+  "chip": {
+    "freq_hz": 333000000,
+    "tech_nm": 28,
+    "sram_kb_per_pe": 64
+  },
+  "noc": {
+    "width": 24,
+    "height": 24,
+    "link_latency": 1,
+    "num_vc": 1,
+    "credit_init": 32
+  },
+  "sim": {
+    "num_timesteps": 16,
+    "traffic_file": "configs/traffic/uniform_random.json",
+    "energy_table_file": "configs/energy_table_28nm.json",
+    "seed": 0,
+    "num_threads": 0
+  }
+}

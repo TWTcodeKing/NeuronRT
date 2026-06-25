@@ -1,0 +1,36 @@
+{
+  "_note": "PLACEHOLDER per-action energy in pJ. Compute/memory values are SATA_Sim 16-bit (~45nm); NoC values are rough. Re-characterize for 28nm via CACTI + a synthesis library before trusting absolute energy numbers.",
+
+  "RouterRouteCompute": 0.01,
+  "RouterArbitrate": 0.005,
+  "RouterBufferWrite": 0.05,
+  "RouterBufferRead": 0.05,
+  "LinkTraversal": 0.1,
+  "CreditReturn": 0.002,
+
+  "SpikeInject": 0.05,
+  "SpikeEject": 0.05,
+  "SyncFlitEmit": 0.02,
+
+  "Mul": 0.239,
+  "Acc": 0.0389,
+  "Add": 0.00967,
+  "And": 0.000794,
+  "Comp": 0.00309,
+  "Mux": 0.00172,
+  "Reg": 0.0301,
+  "Sft": 0.00605,
+
+  "SramAccess": 1.95,
+  "DramAccess": 55.58,
+  "ScratchpadAccess": 0.2779,
+
+  "_note_dnp": "PLACEHOLDER Soma-DNP per-action energy in pJ (small on-chip table / FIFO / counter ops).",
+  "MapTableRead": 0.1,
+  "MapTableWrite": 0.12,
+  "FreeListPop": 0.03,
+  "FreeListPush": 0.03,
+  "AgeTick": 0.00967,
+  "PruneScan": 0.00309,
+  "ReclaimOp": 0.12
+}
